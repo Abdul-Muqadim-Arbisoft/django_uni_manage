@@ -41,7 +41,6 @@ INSTALLED_APPS = [
 ]
 
 
-
 ROOT_URLCONF = 'basic_user_app_django.urls'
 
 TEMPLATES = [
