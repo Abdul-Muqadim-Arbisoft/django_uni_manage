@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
 ROOT_URLCONF = 'UniManage.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

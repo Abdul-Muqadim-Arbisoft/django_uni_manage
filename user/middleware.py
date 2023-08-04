@@ -1,6 +1,7 @@
 from .views import EditProfileView, ChangePasswordView, HomeView
 from django.shortcuts import redirect
 
+
 class CustomAuthenticationMiddleware:
     """
     Middleware to enforce authentication for specific view classes.
