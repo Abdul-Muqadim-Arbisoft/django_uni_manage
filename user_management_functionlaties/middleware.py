@@ -32,8 +32,8 @@ class CustomAuthenticationMiddleware:
     def process_view(request, view_func, view_args, view_kwargs):
         """
         Process the request before calling the view function.
-        check for whether the called url is allowed to be used by non authentic user if not check when the user
-        is authenticated
+        Check whether the called URL is allowed to be used by a non-authenticated user.
+        If not, check whether the user is authenticated.
         """
         # List of view classes that require authentication
         protected_views = [
@@ -42,8 +42,13 @@ class CustomAuthenticationMiddleware:
             HomeView,
         ]
 
-        # Extract the class of the view function from view_func
-        view_class = view_func.view_class
+        # Check if the view_func is a method of a class-based view
+        if hasattr(view_func, 'view_class'):
+            view_class = view_func.view_class
+        elif hasattr(view_func, 'view_initkwargs'):
+            view_class = view_func.view_initkwargs.get('view_class')
+        else:
+            view_class = None
 
         # Check if the current view class is in the protected_views list
         if view_class in protected_views and not request.user.is_authenticated:
