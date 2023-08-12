@@ -128,12 +128,44 @@ Models like `CustomUser`, `DateTimeRecord`, and `Job` are registered. Customizat
 5. Create necessary templates for views.
 6. Do install restfull api setup
 
+
+## Getting Started
+
+### 1. Clone the Repository:
+```bash
+git clone https://github.com/Abdul-Muqadim-Arbisoft/muqadim_basic_user_app_django.git
+cd muqadim_basic_user_app_django
+```
+
+### 2. Create a virtual environment
+```bash
+python -m venv venv
+```
+
+### 3. Activate the virtual environment
+#### For Windows:
+```bash
+venv\Scripts\activate
+```
+
+#### For macOS and Linux:
+```bash
+source venv/bin/activate
+```
+### 3. Run Migrations
+```bash
+python manage.py migrate
+```
+### 4.Start Development Server
+```bash
+python manage.py runserver
+```
+
+
 ## Dependencies
 
-- Django (Version not specified)
+- Django (Version 3)
+- Django Rest Framework
 
-## Future Enhancements
-
-- Email verification.
-- Password reset functionality.
-- User role-based access control.
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
