@@ -10,6 +10,32 @@
     <p>Description: {{ user.description }}</p> <!-- Dynamically display the description -->
     <p>Software Engineering Experience: {{ user.software_engineering_experience }}</p> <!-- Dynamically display the software engineering experience -->
     <p>Last Profile Update: {{ user.last_profile_update }}</p> <!-- Dynamically display the last profile update time -->
+    <h3>Available Jobs:</h3>
+    <ul>
+        {% for job in jobs %}
+        <li>
+            {{ job.name }} - Tech stack: {{ job.tech_stack }} - Required experience: {{ job.experience_required }} years
+            <button data-required-experience="{{ job.experience_required }}" onclick="applyForJob(this, {{ user.software_engineering_experience }})">Apply</button>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function applyForJob(button, userExperience) {
+            const requiredExperience = parseInt(button.getAttribute('data-required-experience'), 10);
+
+            if(userExperience < requiredExperience){
+                alert("Can't apply for this job! Your experience is less than required.");
+                return;
+            }
+            else{
+                alert("Successfully Applied");
+                return;
+            }
+
+        }
+    </script>
+
 
     <a href="{% url 'edit_profile' %}">Edit Profile</a> <!-- Link to edit profile -->
     <a href="{% url 'change_password' %}">Change Password</a> <!-- Link to change password -->
