@@ -1,4 +1,3 @@
-New proj
 # User Management System
 
 A Django-based user management system that provides functionalities such as user registration, login, logout, profile editing, password changing, home page rendering, job management, and RESTful APIs for managing data.
@@ -44,6 +43,7 @@ basic_user_app_django/
 │
 ├── 📁 user_management_functionlaties/
 │   ├── 📁 migrations/
+<<<<<<< HEAD
 │   ├── 📁 management/
 │   │   └── 📁 commands/
 │   │       └── automate_terminal_commands
@@ -52,6 +52,8 @@ basic_user_app_django/
 │   │       └── create_one_by_one_user.py
 │   │       └── update_pst_to_utc_or_vice_versa.py
 │   │       
+=======
+>>>>>>> main
 │   ├── 📁 templates/
 │   │   └── __init__.py
 │   ├── __init__.py
