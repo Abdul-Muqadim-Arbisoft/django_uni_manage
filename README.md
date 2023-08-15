@@ -101,12 +101,10 @@ Templates for rendering the user management views.
 
 ### API Views
 
-- **UserAPI**: Fetch, update, or delete a user.
 - **JobAPI**: Create, retrieve, update, or delete jobs.
 
 ### Serializers
 
-- **UserSerializer**: Serializes and deserializes user data.
 - **JobSerializer**: Serializes and deserializes job data.
 
 ## Management Commands
