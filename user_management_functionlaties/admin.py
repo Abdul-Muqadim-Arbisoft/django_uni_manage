@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, DateTimeRecord, Job
+from .models import CustomUser, DateTimeRecord
 
 
 def make_active(modeladmin, request, queryset):
@@ -53,16 +53,3 @@ class DateTimeRecordAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DateTimeRecord, DateTimeRecordAdmin)
-
-
-class JobAdmin(admin.ModelAdmin):
-    """
-    Admin customization for the Job model.
-    Defines the fields to be displayed in list view, search fields, and filters.
-    """
-    list_display = ('name', 'experience_required')
-    search_fields = ('name', 'tech_stack')
-    list_filter = ('experience_required',)
-
-
-admin.site.register(Job, JobAdmin)

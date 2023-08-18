@@ -47,11 +47,3 @@ class DateTimeRecord(models.Model):
     def __str__(self):
         """Return the datetime and the conversion status as the string representation of the DateTimeRecord."""
         return f"{self.datetime} (converted to UTC: {self.converted_to_utc})"
-
-class Job(models.Model):
-    name = models.CharField(max_length=255)
-    experience_required = models.PositiveIntegerField()
-    tech_stack = models.TextField()
-
-    def __str__(self):
-        return self.name

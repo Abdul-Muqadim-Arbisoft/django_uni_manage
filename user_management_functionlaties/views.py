@@ -3,9 +3,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.views import View
 from .forms import CustomUserCreationForm, EditProfileForm
 from django.shortcuts import render, redirect
-from .models import Job
-from .serializers import JobSerializer
-from rest_framework import generics
 
 from utils.constants import (
     SIGNUP_TEMPLATE,
@@ -32,7 +29,7 @@ class SignupView(View):
     @staticmethod
     def post(request):
         form = CustomUserCreationForm(request.POST)
-        return validate_and_save_form(form, request, 'home', SIGNUP_TEMPLATE, VALIDATION_ERROR_MSG)
+        return validate_and_save_form(form, request, 'login', SIGNUP_TEMPLATE, VALIDATION_ERROR_MSG)
 
 
 class LoginView(View):
@@ -97,10 +94,4 @@ class HomeView(View):
     """View to render the home page."""
     @staticmethod
     def get(request):
-        jobs = Job.objects.all()
-        return render(request, 'user_management_functionlaties/home.html', {'person': request.user, 'jobs': jobs})
-
-
-class JobListCreate(generics.ListCreateAPIView):
-    queryset = Job.objects.all()
-    serializer_class = JobSerializer
+        return render(request, HOME_TEMPLATE, {'person': request.user})

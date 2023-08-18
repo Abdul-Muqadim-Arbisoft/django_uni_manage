@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignupView, LoginView, LogoutView, EditProfileView, ChangePasswordView, HomeView, JobListCreate
+from .views import SignupView, LoginView, LogoutView, EditProfileView, ChangePasswordView, HomeView
 
 # URL patterns for the user management functionalities
 urlpatterns = [
@@ -9,6 +9,4 @@ urlpatterns = [
     path('edit_profile/', EditProfileView.as_view(), name='edit_profile'),  # URL pattern for editing user profiles
     path('change_password/', ChangePasswordView.as_view(), name='change_password'),  # URL for changing user passwords
     path('home/', HomeView.as_view(), name='home'),                    # URL pattern for rendering the home page
-    path('api/jobs/', JobListCreate.as_view(), name='job-list-create'),
-
 ]
