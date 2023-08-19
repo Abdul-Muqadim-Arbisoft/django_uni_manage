@@ -1,5 +1,5 @@
 """
-URL configuration for basic_user_app_django project.
+URL configuration for UniManage project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/

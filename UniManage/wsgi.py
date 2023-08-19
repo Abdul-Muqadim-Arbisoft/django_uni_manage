@@ -1,5 +1,5 @@
 """
-WSGI config for basic_user_app_django project.
+WSGI config for UniManage project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'basic_user_app_django.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'UniManage.settings')
 
 application = get_wsgi_application()
