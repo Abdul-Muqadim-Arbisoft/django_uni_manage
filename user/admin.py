@@ -1,5 +1,5 @@
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser,DateTimeRecord
 from .admin_site import admin_site
 
 
@@ -17,3 +17,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin_site.register(CustomUser, CustomUserAdmin)
+admin_site.register(DateTimeRecord)
