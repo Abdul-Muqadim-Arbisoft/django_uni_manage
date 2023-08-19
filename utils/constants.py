@@ -1,10 +1,10 @@
 
 # Constants related to URLs/templates paths
-SIGNUP_TEMPLATE = 'user_management_functionlaties/signup.html'
-LOGIN_TEMPLATE = 'user_management_functionlaties/login.html'
-EDIT_PROFILE_TEMPLATE = 'user_management_functionlaties/edit_profile.html'
-CHANGE_PASSWORD_TEMPLATE = 'user_management_functionlaties/change_password.html'
-HOME_TEMPLATE = 'user_management_functionlaties/home.html'
+SIGNUP_TEMPLATE = 'user/signup.html'
+LOGIN_TEMPLATE = 'user/login.html'
+EDIT_PROFILE_TEMPLATE = 'user/edit_profile.html'
+CHANGE_PASSWORD_TEMPLATE = 'user/change_password.html'
+HOME_TEMPLATE = 'user/home.html'
 
 # Error messages
 VALIDATION_ERROR_MSG = 'Validation error occurred'
