@@ -29,7 +29,7 @@ class SignupView(View):
     @staticmethod
     def post(request):
         form = CustomUserCreationForm(request.POST)
-        return validate_and_save_form(form, request, 'home', SIGNUP_TEMPLATE, VALIDATION_ERROR_MSG)
+        return validate_and_save_form(form, request, 'login', SIGNUP_TEMPLATE, VALIDATION_ERROR_MSG)
 
 
 class LoginView(View):

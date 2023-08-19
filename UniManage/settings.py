@@ -124,8 +124,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'user_management_functionlaties.middleware.CustomAuthenticationMiddleware',
+    'user.middleware.CustomAuthenticationMiddleware',
 
 ]
 
-AUTH_USER_MODEL = 'user_management_functionlaties.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
