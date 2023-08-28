@@ -6,14 +6,14 @@ from utils.helpers import validate_password
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'father_name', 'description', 'software_engineering_experience', 'last_profile_update']
+        fields = ['id','username', 'email', 'father_name', 'description', 'software_engineering_experience', 'last_profile_update']
 
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'password', 'father_name', 'description', 'software_engineering_experience']
+        fields = ['username','email', 'password', 'father_name', 'description', 'software_engineering_experience']
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
