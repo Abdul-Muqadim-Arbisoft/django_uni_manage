@@ -129,3 +129,4 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'user.CustomUser'
+AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']

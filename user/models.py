@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from utils.constants import EMAIL_FIELD_NAME, REQUIRED_USER_FIELDS
+from utils.constants import REQUIRED_USER_FIELDS
 from utils.helpers import update_user_profile_fields
 
 
@@ -18,7 +18,6 @@ class CustomUser(AbstractUser):
     software_engineering_experience = models.PositiveIntegerField(null=True, blank=True)
     last_profile_update = models.DateTimeField(null=True, blank=True)
 
-    USERNAME_FIELD = EMAIL_FIELD_NAME
     REQUIRED_FIELDS = REQUIRED_USER_FIELDS
 
     def save(self, *args, **kwargs):

@@ -18,8 +18,7 @@ PROTECTED_VIEW_NAMES = [
 ]
 
 # Constants related to the CustomUser model
-EMAIL_FIELD_NAME = 'email'
-REQUIRED_USER_FIELDS = ['username', 'father_name']
+REQUIRED_USER_FIELDS = ['father_name', 'email', 'description']
 DEFAULT_SOFTWARE_ENGINEERING_EXPERIENCE = 0
 
 # Constants related to the CustomUser forms
