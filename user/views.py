@@ -15,7 +15,10 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
 from .serializers import (CustomUserSerializer, CustomUserRegistrationSerializer, ChangePasswordSerializer)
 from rest_framework.permissions import AllowAny
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9a80d (unit tests added for the user and also some authentication removed from the logiin and signup)
 
 from utils.constants import (
     SIGNUP_TEMPLATE,
