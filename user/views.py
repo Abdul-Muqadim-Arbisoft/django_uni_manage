@@ -34,15 +34,20 @@ class SignupView(View):
 
 class LoginView(View):
     """View to handle user login."""
+
     @staticmethod
     def get(request):
         return render(request, LOGIN_TEMPLATE)
 
     @staticmethod
     def post(request):
-        email = request.POST['email']
+        # Retrieve both email and username from the request.
+        # One of them will be None, and that's okay.
+        lookup_value = request.POST.get('email_or_username')  # Adjust your frontend to have a unified input
         password = request.POST['password']
-        user = authenticate(request, email=email, password=password)
+
+        user = authenticate(request, email=lookup_value, username=lookup_value, password=password)
+
         if user:
             login(request, user)
             return redirect('home')
