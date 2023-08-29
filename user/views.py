@@ -172,7 +172,6 @@ class LoginAPIView(APIView):
 
         return Response({"detail": "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def logout_api_view(request):
