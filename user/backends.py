@@ -6,15 +6,19 @@ class EmailBackend(ModelBackend):
     def authenticate(self, request, username=None, email=None, password=None, **kwargs):
         UserModel = get_user_model()
 
-        # Use email if it's provided; otherwise, fallback to username
-        email = email or username
+        # Prioritize email if provided; otherwise, use username
+        lookup_value = email or username
 
-        print(f"Trying to authenticate: {email=}, {password=}")
+        print(f"Trying to authenticate: {lookup_value=}, {password=}")
         try:
-            user = UserModel.objects.get(email=email)
-            print("Found a user with the provided email")
+            if "@" in lookup_value:
+                user = UserModel.objects.get(email=lookup_value)
+                print("Found a user with the provided email")
+            else:
+                user = UserModel.objects.get(username=lookup_value)
+                print("Found a user with the provided username")
         except UserModel.DoesNotExist:
-            print("No user found with the provided email")
+            print("No user found with the provided email/username")
             return None
         else:
             if user.check_password(password):

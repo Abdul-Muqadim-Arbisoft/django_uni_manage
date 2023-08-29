@@ -55,9 +55,13 @@ class LoginView(View):
 
     @staticmethod
     def post(request):
-        email = request.POST['email']
+        # Retrieve both email and username from the request.
+        # One of them will be None, and that's okay.
+        lookup_value = request.POST.get('email_or_username')  # Adjust your frontend to have a unified input
         password = request.POST['password']
-        user = authenticate(request, email=email, password=password)
+
+        user = authenticate(request, email=lookup_value, username=lookup_value, password=password)
+
         if user:
             login(request, user)
             return redirect('home')
@@ -137,9 +141,22 @@ class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        email = request.data.get('email')
+        email = request.data.get('email', None)
+        username = request.data.get('username', None)
         password = request.data.get('password')
-        user = authenticate(request, email=email, password=password)
+
+        # Determine whether email or username was provided
+        if email and "@" in email:
+            credentials = {'email': email, 'password': password}
+        elif username:
+            credentials = {'username': username, 'password': password}
+        else:
+            return Response({"detail": "Invalid input. Provide either a valid email or username."},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        # Authenticate using the credentials
+        user = authenticate(request, **credentials)
+
         if user:
             login(request, user)
 
