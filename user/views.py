@@ -14,6 +14,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
 from .serializers import (CustomUserSerializer, CustomUserRegistrationSerializer, ChangePasswordSerializer)
+from rest_framework.permissions import AllowAny
+
 
 from utils.constants import (
     SIGNUP_TEMPLATE,
@@ -121,6 +123,8 @@ class ListUsersView(generics.ListAPIView):
 
 
 class SignupAPIView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = CustomUserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -130,6 +134,8 @@ class SignupAPIView(APIView):
 
 
 class LoginAPIView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
