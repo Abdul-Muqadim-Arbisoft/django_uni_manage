@@ -139,3 +139,8 @@ AUTH_USER_MODEL = 'user.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "project/static"),
+    os.path.join(BASE_DIR, "user/static")
+]
