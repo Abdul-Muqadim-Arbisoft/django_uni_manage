@@ -1,6 +1,8 @@
 
-
 {% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/supervisor_login.css' %}">
+
   <h2>Supervisor Login</h2>
   <form method="post">
     {% csrf_token %}
