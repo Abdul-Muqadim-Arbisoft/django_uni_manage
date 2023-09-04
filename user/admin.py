@@ -1,8 +1,7 @@
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, DateTimeRecord
 from .admin_site import admin_site
 from django.contrib import admin
-from .models import CustomUser, DateTimeRecord
+from .models import CustomUser, DateTimeRecord, ReminderSetting
 
 
 def make_active(modeladmin, request, queryset):
@@ -43,13 +42,13 @@ class CustomUserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': (
-        'username', 'email', 'description', 'father_name', 'password', 'software_engineering_experience',
-        'last_profile_update', 'is_active', 'is_staff')}),
+            'username', 'email', 'description', 'father_name', 'password', 'software_engineering_experience',
+            'last_profile_update', 'is_active', 'is_staff')}),
     )
 
     list_display = (
-    'email', 'description', 'username', 'father_name', 'first_name', 'last_name', 'software_engineering_experience',
-    'last_profile_update')
+        'email', 'description', 'username', 'father_name', 'first_name', 'last_name', 'software_engineering_experience',
+        'last_profile_update')
     search_fields = ('email', 'first_name', 'last_name', 'father_name')
     list_filter = ('is_active', 'is_staff', 'software_engineering_experience')
     actions = [make_active, make_inactive]
@@ -72,3 +71,24 @@ class DateTimeRecordAdmin(admin.ModelAdmin):
 
 
 admin_site.register(DateTimeRecord, DateTimeRecordAdmin)
+
+
+class ReminderSettingAdmin(admin.ModelAdmin):
+    list_display = ['duration']
+
+    def has_add_permission(self, request):
+        # Disable addition if a ReminderSetting instance already exists
+        return not ReminderSetting.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        # Disable deletion
+        return False
+
+    # Hide the delete action
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+admin_site.register(ReminderSetting, ReminderSettingAdmin)

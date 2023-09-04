@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import datetime
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg',
+    'model_utils',
 ]
 
 REST_FRAMEWORK = {
@@ -132,7 +134,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'user.middleware.CustomAuthenticationMiddleware',
-    ]
+]
 
 AUTH_USER_MODEL = 'user.CustomUser'
 
@@ -144,3 +146,31 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "project/static"),
     os.path.join(BASE_DIR, "user/static")
 ]
+
+# settings.py
+
+# Celery configurations
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP configuration
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_PORT = 587  # You can choose any of the provided ports, but 587 is commonly used for STARTTLS
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '6bd0f1298b89cb'
+EMAIL_HOST_PASSWORD = '75848b7312e651'
+
+CELERY_BEAT_SCHEDULE = {
+    'check-login': {
+        'task': 'user.tasks.check_last_login_and_send_email',
+        'schedule': timedelta(minutes=1),  # Run daily
+    },
+}
+
+CELERY_BEAT_MAX_LOOP_INTERVAL = 25  # Time in seconds. 600 seconds is 10 minutes.

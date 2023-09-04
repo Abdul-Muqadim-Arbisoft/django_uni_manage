@@ -402,3 +402,9 @@ pip install django==4.2.3 djangorestframework django-rest-framework-simplejwt dj
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+celery command:
+ /Users/abdul.muqadim/Library/Python/3.9/bin/celery -A UniManage worker --loglevel=info
+
+/Users/abdul.muqadim/Library/Python/3.9/bin/celery -A UniManage worker --loglevel=info
+/Users/abdul.muqadim/Library/Python/3.9/bin/celery -A UniManage beat --loglevel=info

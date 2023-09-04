@@ -4,6 +4,7 @@ from utils.constants import REQUIRED_USER_FIELDS
 from utils.helpers import update_user_profile_fields
 
 
+
 class CustomUser(AbstractUser):
     """
     Custom user model that extends Django's built-in AbstractUser class.
@@ -46,3 +47,17 @@ class DateTimeRecord(models.Model):
     def __str__(self):
         """Return the datetime and the conversion status as the string representation of the DateTimeRecord."""
         return f"{self.datetime} (converted to UTC: {self.converted_to_utc})"
+
+
+class ReminderSetting(models.Model):
+    DURATION_CHOICES = (
+        ('seconds', 'Seconds'),
+        ('minutes', 'Minutes'),
+        ('hours', 'Hours'),
+        ('days', 'Days'),
+    )
+    duration = models.PositiveIntegerField(default=30)
+    duration_type = models.CharField(max_length=7, choices=DURATION_CHOICES, default='minutes')
+
+    class Meta:
+        verbose_name_plural = "Reminder Settings"
