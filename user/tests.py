@@ -100,7 +100,8 @@ class CustomUserSerializerTestCase(TestCase):
             'email': 'test112234@example.com',
             'father_name': 'testfather',
             'description': 'test description',
-            'software_engineering_experience': 2
+            'software_engineering_experience': 2,
+            'country': 'Algeria'
         }
         self.user = CustomUser.objects.create(**self.user_attributes)
         self.serializer = CustomUserSerializer(instance=self.user)
@@ -110,7 +111,7 @@ class CustomUserSerializerTestCase(TestCase):
         data = self.serializer.data
         self.assertEqual(set(data.keys()),
                          {'id', 'username', 'email', 'father_name', 'description', 'software_engineering_experience',
-                          'last_profile_update'})
+                          'last_profile_update', 'country'})
         self.assertEqual(data['username'], self.user_attributes['username'])
 
     def test_successful_deserialization(self):
@@ -136,7 +137,8 @@ class CustomUserRegistrationSerializerTestCase(TestCase):
             'password': 'password123',
             'father_name': 'testfather',
             'description': 'test description',
-            'software_engineering_experience': 2
+            'software_engineering_experience': 2,
+            'country': 'Algeria'
         }
 
     def test_successful_serialization(self):
@@ -197,7 +199,8 @@ class UserViewTests(TestCase):
             'password': 'testpass123',
             'email': 'testuser@example.com',
             'father_name': 'testfather',
-            'description': 'Test description'
+            'description': 'Test description',
+            'country': 'Algeria'
         }
         self.user = get_user_model().objects.create_user(**self.user_data)
         self.client.login(email=self.user_data['email'], password=self.user_data['password'])
@@ -228,7 +231,8 @@ class UserViewTests(TestCase):
             'username': 'updateduser',
             'email': 'updateduser@example.com',
             'father_name': 'updatedfather',
-            'description': 'Updated description'
+            'description': 'Updated description',
+            'country': 'Updated Country'
         })
 
         updated_user = get_user_model().objects.get(pk=self.user.pk)
@@ -237,6 +241,7 @@ class UserViewTests(TestCase):
         self.assertEqual(updated_user.email, 'updateduser@example.com')
         self.assertEqual(updated_user.father_name, 'updatedfather')
         self.assertEqual(updated_user.description, 'Updated description')
+        self.assertEqual(updated_user.country, 'Updated Country')
         self.assertRedirects(response, reverse('home'))
 
 
@@ -254,6 +259,7 @@ class UserAuthAPITestCase(TestCase):
         self.father_name = "John Doe"
         self.description = "Test description"
         self.software_engineering_experience = 5
+        self.country = "Algeria"
 
         self.user = CustomUser.objects.create_user(
             username=self.test_username,
@@ -261,7 +267,8 @@ class UserAuthAPITestCase(TestCase):
             password=self.test_password,
             father_name=self.father_name,
             description=self.description,
-            software_engineering_experience=self.software_engineering_experience
+            software_engineering_experience=self.software_engineering_experience,
+            country=self.country
         )
 
     def test_signup_api(self):
@@ -272,7 +279,8 @@ class UserAuthAPITestCase(TestCase):
             'password': 'password123',
             'father_name': 'John Doe',
             'description': 'Just a test user.',
-            'software_engineering_experience': 2
+            'software_engineering_experience': 2,
+            'country': 'Algeria'
         }
 
         response = self.client.post(reverse('signup-api'), data)
@@ -317,7 +325,8 @@ class ChangePasswordAPITestCase(TestCase):
             'password': 'password123',
             'father_name': 'John Doe',
             'description': 'Just a test user.',
-            'software_engineering_experience': 2
+            'software_engineering_experience': 2,
+            'country': 'Algeria'
         }
 
         self.user = CustomUser.objects.create_user(**self.user_data)

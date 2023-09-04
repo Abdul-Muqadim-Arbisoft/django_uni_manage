@@ -18,8 +18,9 @@ PROTECTED_VIEW_NAMES = [
 ]
 
 # Constants related to the CustomUser model
-REQUIRED_USER_FIELDS = ['father_name', 'email', 'description']
+REQUIRED_USER_FIELDS = ['father_name', 'email', 'description', 'country']
 DEFAULT_SOFTWARE_ENGINEERING_EXPERIENCE = 0
+
 
 # Constants related to the CustomUser forms
 USER_FORM_FIELDS = (
@@ -27,7 +28,9 @@ USER_FORM_FIELDS = (
     'username',
     'father_name',
     'software_engineering_experience',
-    'description'
+    'description',
+    'country'
+
 )
 PASSWORD_MIN_LENGTH = 6
 PASSWORD_DIGIT_MESSAGE = 'Password must contain at least 1 number.'

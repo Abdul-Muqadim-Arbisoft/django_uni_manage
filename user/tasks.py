@@ -7,7 +7,6 @@ from django.conf import settings
 from .models import CustomUser, ReminderSetting
 
 
-
 @shared_task(bind=True)
 def send_welcome_email(self, email, username):
     try:
@@ -56,6 +55,5 @@ def check_last_login_and_send_email(self):
     for user in users_to_notify:
         subject = "We appreciate you!"
         message = f"Hello {user.username},\n\n We have noticed that its been a while since you last visited. We would love to see you back on our platform!"
-
 
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])

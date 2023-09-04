@@ -4,7 +4,6 @@ from utils.constants import REQUIRED_USER_FIELDS
 from utils.helpers import update_user_profile_fields
 
 
-
 class CustomUser(AbstractUser):
     """
     Custom user model that extends Django's built-in AbstractUser class.
@@ -18,6 +17,7 @@ class CustomUser(AbstractUser):
     description = models.TextField(null=True, blank=True)
     software_engineering_experience = models.PositiveIntegerField(null=True, blank=True)
     last_profile_update = models.DateTimeField(null=True, blank=True)
+    country = models.CharField(max_length=100)
 
     REQUIRED_FIELDS = REQUIRED_USER_FIELDS
 

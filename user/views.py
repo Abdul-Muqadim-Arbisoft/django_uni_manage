@@ -16,7 +16,7 @@ from django.contrib.auth import authenticate, login, logout
 from .serializers import (CustomUserSerializer, CustomUserRegistrationSerializer, ChangePasswordSerializer)
 from rest_framework.permissions import AllowAny
 from .tasks import send_welcome_email
-
+from utils.helpers import get_countries
 from utils.constants import (
     SIGNUP_TEMPLATE,
     LOGIN_TEMPLATE,
@@ -38,11 +38,16 @@ class SignupView(View):
     @staticmethod
     def get(request):
         form = CustomUserCreationForm()
+        countries = get_countries()  # Fetch countries from cache
+        form.fields['country'].choices = [(country, country) for country in countries]  # Set the country choices
         return render(request, SIGNUP_TEMPLATE, {'form': form})
 
     @staticmethod
     def post(request):
         form = CustomUserCreationForm(request.POST)
+        countries = get_countries()  # Fetch countries from cache
+        form.fields['country'].choices = [(country, country) for country in countries]  # Set the country choices
+
         response = validate_and_save_form(form, request, 'login', SIGNUP_TEMPLATE, VALIDATION_ERROR_MSG)
         if form.is_valid():
             send_welcome_email.delay(email=form.cleaned_data.get('email'),

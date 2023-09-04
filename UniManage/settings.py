@@ -174,3 +174,13 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 CELERY_BEAT_MAX_LOOP_INTERVAL = 25  # Time in seconds. 600 seconds is 10 minutes.
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}

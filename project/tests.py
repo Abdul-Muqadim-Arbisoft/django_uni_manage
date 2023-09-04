@@ -19,7 +19,7 @@ class SupervisorLoginViewTestCase(TestCase):
         """Setup test data for Supervisor login tests."""
         self.client = APIClient()
         self.user = CustomUser.objects.create_user(email='test@example.com', password='testpassword', username='test',
-                                                   father_name='father', description='hell no')
+                                                   father_name='father', description='hell no', country="Algeria")
         self.supervisor = Supervisor.objects.create(user=self.user, expertise="Testing")
 
     def test_supervisor_login(self):
@@ -44,7 +44,8 @@ class CommentViewSetTestCase(TestCase):
         """Setup test data for Comment view set tests."""
         self.client = APIClient()
         self.user = CustomUser.objects.create_user(email='test3@example.com', password='testpassword', username='test3',
-                                                   father_name='father3', description='description 3')
+                                                   father_name='father3', description='description 3',
+                                                   country="Algeria")
         self.supervisor = Supervisor.objects.create(user=self.user, expertise="QA")
         self.project = Project.objects.create(name="Test Project 2", description="A second test project",
                                               start_date="2023-01-02", end_date="2023-12-31",
@@ -72,7 +73,7 @@ class ProjectSerializerTestCase(TestCase):
     def setUp(self):
         """Setup test data for Project serializer tests."""
         self.user = CustomUser.objects.create(email="test@example.com", password="testpassword", username="testuser",
-                                              father_name="testfather", description="testdesc")
+                                              father_name="testfather", description="testdesc", country="Algeria")
         self.supervisor = Supervisor.objects.create(user=self.user)
         self.project_data = {
             'name': 'Test Project',
@@ -121,7 +122,7 @@ class CommentSerializerTestCase(TestCase):
     def setUp(self):
         """Setup test data for Comment serializer tests."""
         self.user = CustomUser.objects.create(email="test2@example.com", password="testpassword2", username="testuser2",
-                                              father_name="testfather2", description="testdesc2")
+                                              father_name="testfather2", description="testdesc2", country="Algeria")
         self.supervisor = Supervisor.objects.create(user=self.user)
         self.project = Project.objects.create(name='Test Project', description='Test', start_date='2023-01-01',
                                               end_date='2023-12-31', supervisor=self.supervisor)
@@ -159,7 +160,7 @@ class SupervisorLoginSerializerTestCase(TestCase):
         """Setup test data for Supervisor login serializer tests."""
         self.user = CustomUser.objects.create_user(email="supervisor@example.com", password="supervisorpassword",
                                                    username="supervisoruser", father_name="supervisorfather",
-                                                   description="supervisordesc")
+                                                   description="supervisordesc", country="Algeria")
         self.supervisor = Supervisor.objects.create(user=self.user)
 
     def test_valid_login(self):
@@ -183,7 +184,7 @@ class SupervisorLoginSerializerTestCase(TestCase):
     def test_non_supervisor_login(self):
         user = CustomUser.objects.create_user(email="notasupervisor@example.com", password="testpassword3",
                                               username="nonsupervisoruser", father_name="nonsupervisorfather",
-                                              description="nonsupervisordesc")
+                                              description="nonsupervisordesc", country='Algeria')
         data = {
             'email': 'notasupervisor@example.com',
             'password': 'testpassword3'
@@ -201,7 +202,7 @@ class ProjectsListViewTestCase(TestCase):
     def setUp(self):
         """Setup test data for ProjectsListView tests."""
         self.user = CustomUser.objects.create_user(email='test@example.com', password='testpassword', username='test',
-                                                   father_name='father', description='description')
+                                                   father_name='father', description='description', country='Algeria')
         self.supervisor = Supervisor.objects.create(user=self.user, expertise="Testing")
         self.project1 = Project.objects.create(name="Test Project 1", supervisor=self.supervisor,
                                                start_date=date.today(), end_date=date.today() + timedelta(days=10))
@@ -229,7 +230,9 @@ class ViewCommentsViewTestCase(TestCase):
         """Setup test data for ViewCommentsView tests."""
         self.user = CustomUser.objects.create_user(email='commenter@example.com', password='testpassword',
                                                    username='commenter',
-                                                   father_name='father_commenter', description='description_commenter')
+                                                   father_name='father_commenter', description='description_commenter',
+                                                   country='Algeria'
+                                                   )
         self.supervisor = Supervisor.objects.create(user=self.user, expertise="QA")
         self.project = Project.objects.create(name="Test Project", supervisor=self.supervisor, start_date=date.today(),
                                               end_date=date.today() + timedelta(days=10))
