@@ -7,6 +7,8 @@ A Django-based project management system that provides functionalities for proje
 - [Features App Wise](#features-app-wise)
 - [Management Commands](#management-commands)
 - [Django Admin Enhancements](#django-admin-enhancements)
+- [Celery Tasks](#celery-tasks)
+- [Unit Tests](#unit-test)
 - [How to Use](#how-to-use)
 - [Dependencies](#dependencies)
 - [Future Enhancements](#future-enhancements)
@@ -37,6 +39,12 @@ muqadim_basic_user_app_django/
 │   │       ├── projects_list.html
 │   │       ├── supervisor_login.html
 │   │       └── view_comments.html
+│   ├── 📁 static/
+│   │   └── css/
+│   │       ├── create_project.css
+│   │       ├── projects_list.css
+│   │       ├── supervisor_login.css
+│   │       └── view_comments.css
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
@@ -53,6 +61,7 @@ muqadim_basic_user_app_django/
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
+│   ├── celery.py
 │
 ├── 📁 user/
 │   ├── 📁 management/
@@ -70,6 +79,13 @@ muqadim_basic_user_app_django/
 │   │       ├── home.html
 │   │       ├── login.html
 │   │       └── signup.html
+│   ├── 📁 static/
+│   │   └── css/
+│   │       ├── change_password.css
+│   │       ├── edit_profile.css
+│   │       ├── home.css
+│   │       ├── login.css
+│   │       └── signup.css
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── admin_forms.py
@@ -82,6 +98,7 @@ muqadim_basic_user_app_django/
 │   ├── serializers.py
 │   ├── tests.py
 │   ├── urls.py
+│   ├── tasks.py
 │   └── views.py
 │
 ├── 📁 utils/
@@ -328,8 +345,62 @@ The app's URL blueprint provides paths for both conventional web views and API a
 
 Models like `CustomUser`, `DateTimeRecord`,`PROJECT`,`SUPERVISOR`,`COMMENTS` etc  are registered. Customizations include field rearrangements, list displays, and filters.
 
-## How to Use
+## Celery-Tasks
+1. Whenever a user signs up a welcome mail is sent to him ,MailTral service is being used for this purpose,you need to run redis server on one terminal and celery server in other as well for this purpose 
+#### For starting redis
+```bash
+redis server
+```
 
+### in other terminal
+#### For starting the celery
+```bash
+celery -A UniManage worker --loglevel=info
+```
+2. A reminder mail to get back to platform is sent to the user ,the period upon which this reminder mail is to be sent is decided in model reminder setting you can edit that value in the django admin,MailTral service is being used for this purpose,you need to run redis server ion one terminal and celery server in other and celery beat server on another terminal as well for this purpose 
+#### For starting redis
+```bash
+redis server
+```
+
+### in other terminal
+#### For starting the celery
+```bash
+celery -A UniManage worker --loglevel=info
+```
+
+### in another terminal
+#### For starting the celery beat
+```bash
+celery -A UniManage beat --loglevel=info
+```
+
+## Unit-Test
+Unit Tests have been deployed for both models ,unit tests dont cover the whole project, total coverage of unit test for this whole project is 42% .
+### You can run the unit tests through following commands 
+#### For User app
+```bash
+python3 manage.py test user
+```
+#### For Project app
+```bash
+python3 manage.py test project
+```
+#### For whole project
+```bash
+python3 manage.py test
+```
+#### For Unit Test Coverage
+```bash
+coverage run manage.py test
+```
+```bash
+coverage report 
+```
+
+
+
+## How to Use
 1. Set up a Django project.
 2. Ensure Django's authentication system is set up.
 3. Include the URL patterns in your project's configuration.
@@ -393,18 +464,28 @@ python manage.py runserver
 
   Yet another Swagger generator. It's a great tool for creating API documentation with OpenAPI and Swagger.
 
+- **redis**
+
+  Redis is an open-source, in-memory data structure store, used as a database, cache, and message broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs, and geospatial indexes with radius queries.
+
+- **celery**
+
+  Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation but supports scheduling as well.
+
+- **celery[beat]**
+
+  Celery Beat is a scheduler that integrates with Celery. It allows you to run tasks at regular intervals, similar to cron jobs in Unix systems.
+
+- **django-countries**
+  
+  A Django application that provides a country field for models and forms. It allows you to easily add drop-downs in forms to select a country, and it includes a list of all countries with their names, ISO codes, and more.
+
 To install all the dependencies, use the following pip command:
 
 ```bash
-pip install django==4.2.3 djangorestframework django-rest-framework-simplejwt djoser drf-yasg
+pip install django==4.2.3 djangorestframework django-rest-framework-simplejwt djoser drf-yasg redis celery celery[beat] django-countries 
 ```
 
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-celery command:
- /Users/abdul.muqadim/Library/Python/3.9/bin/celery -A UniManage worker --loglevel=info
-
-/Users/abdul.muqadim/Library/Python/3.9/bin/celery -A UniManage worker --loglevel=info
-/Users/abdul.muqadim/Library/Python/3.9/bin/celery -A UniManage beat --loglevel=info
