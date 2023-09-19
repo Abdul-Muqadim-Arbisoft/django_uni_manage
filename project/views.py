@@ -18,6 +18,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from utils.constants import *
 from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework.permissions import AllowAny
+
+
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
@@ -83,6 +86,7 @@ class SupervisorLoginViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """
     ViewSet for supervisor login functionality.
     """
+    permission_classes = [AllowAny]
     queryset = CustomUser.objects.none()
     serializer_class = SupervisorLoginSerializer
 
@@ -100,7 +104,6 @@ class SupervisorLoginViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 'access': str(refresh.access_token)
             })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class CreateProjectView(TemplateView):
@@ -148,6 +151,7 @@ class SupervisorLoginView(View):
     """
     View for the supervisor login form and logic.
     """
+
     template_name = SUPERVISOR_LOGIN_TEMPLATE
 
     def get(self, request, *args, **kwargs):
@@ -167,6 +171,7 @@ class SupervisorLoginView(View):
                 return HttpResponse(USER_NOT_SUPERVISOR_MSG)
         else:
             return HttpResponse(INVALID_LOGIN_MSG)
+
 
 class CustomTokenRefreshView(TokenRefreshView):
     pass

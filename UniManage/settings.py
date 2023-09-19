@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -57,7 +58,7 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=23),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=5),
     'ROTATE_REFRESH_TOKENS': False,
@@ -126,16 +127,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'user.middleware.CustomAuthenticationMiddleware',
-    ]
+]
 
 AUTH_USER_MODEL = 'user.CustomUser'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
+
+CORS_ALLOW_ALL_ORIGINS = True
