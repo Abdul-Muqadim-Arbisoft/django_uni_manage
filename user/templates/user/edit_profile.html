@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+</head>
+<body>
+    <h2>Edit Profile</h2>
+    <form method="post">
+        {% csrf_token %} <!-- CSRF token for security -->
+        {{ form.as_p }} <!-- Django form rendered as a series of paragraphs, including labels, input widgets, and error messages -->
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

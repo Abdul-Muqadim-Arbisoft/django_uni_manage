@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+</head>
+<body>
+    <h2>Signup</h2>
+    <form method="post">
+        {% csrf_token %} <!-- CSRF token for security -->
+        {{ form.as_p }} <!-- Render the form fields using Django's built-in form rendering -->
+        <button type="submit">Signup</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p> <!-- Link to the login page -->
+</body>
+</html>

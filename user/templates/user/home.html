@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h2>Welcome, {{ person.username }}!</h2> <!-- Dynamically display the username -->
+    <p>Email: {{ user.email }}</p> <!-- Dynamically display the email -->
+    <p>Father's Name: {{ user.father_name }}</p> <!-- Dynamically display the father's name -->
+    <p>Description: {{ user.description }}</p> <!-- Dynamically display the description -->
+    <p>Software Engineering Experience: {{ user.software_engineering_experience }}</p> <!-- Dynamically display the software engineering experience -->
+    <p>Last Profile Update: {{ user.last_profile_update }}</p> <!-- Dynamically display the last profile update time -->
+
+    <a href="{% url 'edit_profile' %}">Edit Profile</a> <!-- Link to edit profile -->
+    <a href="{% url 'change_password' %}">Change Password</a> <!-- Link to change password -->
+    <a href="{% url 'logout' %}">Logout</a> <!-- Link to logout -->
+</body>
+</html>
