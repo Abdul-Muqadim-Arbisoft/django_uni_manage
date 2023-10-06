@@ -1,0 +1,110 @@
+<head>
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style>
+        #students {
+            width: 100%; /* Adjust this value as needed */
+        }
+    </style>
+</head>
+
+<body>
+<form id="createProjectForm" method="post">
+    {% csrf_token %}
+    <h2>Create a New Project</h2>
+
+    <div>
+        <label for="name">Project Name:</label>
+        <input type="text" name="name" required>
+    </div>
+
+    <div>
+        <label for="description">Description:</label>
+        <textarea name="description" required></textarea>
+    </div>
+
+    <div>
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" required>
+    </div>
+
+    <div>
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" required>
+    </div>
+
+    <div>
+        <label for="students_emails">Add Students:</label>
+        <select name="students_emails" id="students" multiple="multiple">
+            <!-- Options will be populated via JavaScript -->
+        </select>
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+$(document).ready(function() {
+    $('#students').select2({
+        width: 'resolve',
+        ajax: {
+            url: '/user/api/users/',  // Your API endpoint to fetch users
+            dataType: 'json',
+            processResults: function(data) {
+                return {
+                    results: data.map(function(user) {
+                        return { id: user.email, text: user.email }; // Use email for both ID and text
+                    })
+                };
+            }
+        }
+    });
+
+    // Fetch the CSRF token from the cookie
+    function getCookie(name) {
+        let value = "; " + document.cookie;
+        let parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    $('#createProjectForm').on('submit', function(event) {
+        event.preventDefault();
+
+        let formData = {
+            name: $('input[name="name"]').val(),
+            description: $('textarea[name="description"]').val(),
+            start_date: $('input[name="start_date"]').val(),
+            end_date: $('input[name="end_date"]').val(),
+            students_emails: $('#students').val()
+        };
+
+        $.ajax({
+            url: '/project/api/projects/',  // Absolute path to the Endpoint of the ProjectViewSet
+            type: 'POST',
+            data: JSON.stringify(formData),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            success: function(data) {
+                if (data.status === 'success' && data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                }
+            },
+            error: function(jqXHR) {
+                let errorMsg = jqXHR.responseJSON && jqXHR.responseJSON.detail ? jqXHR.responseJSON.detail : 'An error occurred. Please try again.';
+                alert(errorMsg);
+            }
+        });
+    });
+});
+
+</script>
+</body>

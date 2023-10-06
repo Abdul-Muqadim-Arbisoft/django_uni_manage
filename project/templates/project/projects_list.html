@@ -1,0 +1,17 @@
+<h2>Your Projects</h2>
+<p>
+    <a href="{% url 'create_project' %}">Create New Project</a>
+</p>
+<ul>
+    {% for project in projects %}
+        <li>
+            <h3>{{ project.name }}</h3>
+            <p>Description: {{ project.description }}</p>
+            <p>Start Date: {{ project.start_date }}</p>
+            <p>End Date: {{ project.end_date }}</p>
+            <a href="{% url 'view_comments' project.id %}">View Comments</a>
+        </li>
+    {% empty %}
+        <li>No projects to display.</li>
+    {% endfor %}
+</ul>

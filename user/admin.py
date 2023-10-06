@@ -2,6 +2,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, DateTimeRecord
 from .admin_site import admin_site
 from django.contrib import admin
+from .models import CustomUser, DateTimeRecord
 
 
 def make_active(modeladmin, request, queryset):

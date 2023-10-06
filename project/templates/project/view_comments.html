@@ -1,0 +1,30 @@
+<h2>Add a Comment for Project: {{ project.name }}</h2>
+
+<form method="post" >
+    {% csrf_token %}
+    <div>
+        <label for="text">Comment:</label>
+        <textarea name="text" required></textarea>
+    </div>
+    <input type="hidden" name="project" value="{{ project.id }}">
+    <button type="submit">Add Comment</button>
+</form>
+
+<hr>
+
+
+<h2>Comments for Project: {{ project.name }}</h2>
+
+<ul>
+    {% for comment in comments %}
+        <li>
+            <p>User: {{ comment.user }}</p>
+            <p>Comment: {{ comment.text }}</p>
+            <p>Date: {{ comment.timestamp }}</p>
+        </li>
+    {% empty %}
+        <li>No comments for this project.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'projects_list' %}">Back to Projects</a>
