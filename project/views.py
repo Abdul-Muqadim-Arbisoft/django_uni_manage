@@ -21,7 +21,6 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.permissions import AllowAny
 
 
-
 class ProjectViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations on Project objects.
@@ -44,6 +43,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 students.append(student)
             except CustomUser.DoesNotExist:
                 raise serializers.ValidationError(USER_DOES_NOT_EXIST_ERROR.format(email=email))
+
         project = Project.objects.create(**serializer.validated_data, supervisor=supervisor)
         project.students.set(students)
 
