@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from utils.constants import PROTECTED_VIEW_NAMES, DEFAULT_SOFTWARE_ENGINEERING_EXPERIENCE, PASSWORD_MIN_LENGTH, PASSWORD_DIGIT_MESSAGE, PASSWORD_LENGTH_MESSAGE
+from utils.constants import PROTECTED_VIEW_NAMES, DEFAULT_SOFTWARE_ENGINEERING_EXPERIENCE, PASSWORD_MIN_LENGTH, \
+    PASSWORD_DIGIT_MESSAGE, PASSWORD_LENGTH_MESSAGE, COUNTRY_NAME_INDEX
+from django.core.cache import cache
+from django_countries import countries
 
 
 def render_with_error(request, template, form, error_msg):
@@ -52,3 +55,14 @@ def validate_password(password):
     if not any(char.isdigit() for char in password):
         raise ValidationError(PASSWORD_DIGIT_MESSAGE)
     return password
+
+
+def get_countries():
+    countries_list = cache.get('countries_list')
+
+    if not countries_list:
+        # This is just a sample list. Use a comprehensive one or fetch it from a source.
+        countries_list = [country[COUNTRY_NAME_INDEX] for country in countries]
+        cache.set('countries_list', countries_list, 86400)  # Cache for 24 hours
+
+    return countries_list

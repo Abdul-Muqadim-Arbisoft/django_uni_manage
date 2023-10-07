@@ -1,19 +1,27 @@
 from rest_framework import serializers
 from .models import CustomUser
-from utils.helpers import validate_password
+from utils.helpers import validate_password, get_countries
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id','username', 'email', 'father_name', 'description', 'software_engineering_experience', 'last_profile_update']
+        fields = ['id', 'username', 'email', 'father_name', 'description', 'software_engineering_experience',
+                  'last_profile_update', 'country']
+
 
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    country = serializers.ChoiceField(choices=get_countries())
 
     class Meta:
         model = CustomUser
-        fields = ['username','email', 'password', 'father_name', 'description', 'software_engineering_experience']
+        fields = ['username', 'email', 'password', 'father_name', 'description', 'software_engineering_experience',
+                  'country']
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserRegistrationSerializer, self).__init__(*args, **kwargs)
+        self.fields['country'].choices = [(country, country) for country in get_countries()]
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
@@ -22,9 +30,11 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             father_name=validated_data['father_name'],
             description=validated_data.get('description', None),
-            software_engineering_experience=validated_data.get('software_engineering_experience', None)
+            software_engineering_experience=validated_data.get('software_engineering_experience', None),
+            country=validated_data.get('country', None),
         )
         return user
+
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)

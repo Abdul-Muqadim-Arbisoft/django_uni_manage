@@ -17,6 +17,7 @@ class CustomUser(AbstractUser):
     description = models.TextField(null=True, blank=True)
     software_engineering_experience = models.PositiveIntegerField(null=True, blank=True)
     last_profile_update = models.DateTimeField(null=True, blank=True)
+    country = models.CharField(max_length=100)
 
     REQUIRED_FIELDS = REQUIRED_USER_FIELDS
 
@@ -46,3 +47,17 @@ class DateTimeRecord(models.Model):
     def __str__(self):
         """Return the datetime and the conversion status as the string representation of the DateTimeRecord."""
         return f"{self.datetime} (converted to UTC: {self.converted_to_utc})"
+
+
+class ReminderSetting(models.Model):
+    DURATION_CHOICES = (
+        ('seconds', 'Seconds'),
+        ('minutes', 'Minutes'),
+        ('hours', 'Hours'),
+        ('days', 'Days'),
+    )
+    duration = models.PositiveIntegerField(default=30)
+    duration_type = models.CharField(max_length=7, choices=DURATION_CHOICES, default='minutes')
+
+    class Meta:
+        verbose_name_plural = "Reminder Settings"

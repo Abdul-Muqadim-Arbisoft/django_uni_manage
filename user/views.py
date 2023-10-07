@@ -15,8 +15,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
 from .serializers import (CustomUserSerializer, CustomUserRegistrationSerializer, ChangePasswordSerializer)
 from rest_framework.permissions import AllowAny
-
-
+from .tasks import send_welcome_email
+from utils.helpers import get_countries
 from utils.constants import (
     SIGNUP_TEMPLATE,
     LOGIN_TEMPLATE,
@@ -38,12 +38,22 @@ class SignupView(View):
     @staticmethod
     def get(request):
         form = CustomUserCreationForm()
+        countries = get_countries()  # Fetch countries from cache
+        form.fields['country'].choices = [(country, country) for country in countries]  # Set the country choices
         return render(request, SIGNUP_TEMPLATE, {'form': form})
 
     @staticmethod
     def post(request):
         form = CustomUserCreationForm(request.POST)
-        return validate_and_save_form(form, request, 'login', SIGNUP_TEMPLATE, VALIDATION_ERROR_MSG)
+        countries = get_countries()  # Fetch countries from cache
+        form.fields['country'].choices = [(country, country) for country in countries]  # Set the country choices
+
+        response = validate_and_save_form(form, request, 'login', SIGNUP_TEMPLATE, VALIDATION_ERROR_MSG)
+        if form.is_valid():
+            send_welcome_email.delay(email=form.cleaned_data.get('email'),
+                                     username=form.cleaned_data.get('username'))
+
+        return response
 
 
 class LoginView(View):
@@ -133,6 +143,8 @@ class SignupAPIView(APIView):
         serializer = CustomUserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            send_welcome_email.delay(email=serializer.validated_data.get('email'),
+                                     username=serializer.validated_data.get('username'))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -168,6 +180,7 @@ class LoginAPIView(APIView):
             }, status=status.HTTP_200_OK)
 
         return Response({"detail": "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 from utils.constants import USER_FORM_FIELDS
-from utils.helpers import validate_password
+from utils.helpers import validate_password, get_countries
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -12,6 +12,12 @@ class CustomUserCreationForm(UserCreationForm):
     This form inherits from Django's built-in UserCreationForm and adds
     additional fields for the CustomUser.
     """
+    country = forms.ChoiceField(choices=[])
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        countries = get_countries()
+        self.fields['country'].choices = [(country, country) for country in countries]
 
     class Meta:
         model = CustomUser
