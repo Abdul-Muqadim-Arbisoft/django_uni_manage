@@ -30,3 +30,19 @@ class CustomUser(AbstractUser):
     def __str__(self):
         """Return the email address as the string representation of the user."""
         return self.email
+
+
+class DateTimeRecord(models.Model):
+    """
+    DateTimeRecord model to save date and time.
+
+    This model has a DateTimeField to save date and time, and a BooleanField to mark
+    whether the saved date and time has been converted to UTC.
+    """
+
+    datetime = models.DateTimeField()  # The date and time to be saved
+    converted_to_utc = models.BooleanField(default=False)  # Whether the date and time has been converted to UTC
+
+    def __str__(self):
+        """Return the datetime and the conversion status as the string representation of the DateTimeRecord."""
+        return f"{self.datetime} (converted to UTC: {self.converted_to_utc})"
